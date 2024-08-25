@@ -1,0 +1,31 @@
+CC = gcc
+CFLAGS = -Wall -fPIC -Iinc
+LDFLAGS = -Llib -lmylibreria -Wl,-rpath,lib
+LIB_SHARED = lib/mylibreria.dll
+OBJ = src/mylibreria.o
+TARGET = bin/p
+
+LIB_DIR = lib
+BIN_DIR = bin
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ) src/p.o $(LIB_SHARED)
+	mkdir -p $(BIN_DIR)
+	$(CC) -o $(TARGET) src/p.o $(LDFLAGS)
+
+$(LIB_SHARED): $(OBJ)
+	mkdir -p $(LIB_DIR)
+	$(CC) -shared -o $(LIB_SHARED) $(OBJ)
+
+src/p.o: src/p.c inc/mylibreria.h
+	$(CC) $(CFLAGS) -c src/p.c -o src/p.o
+
+$(OBJ): src/mylibreria.c inc/mylibreria.h
+	$(CC) $(CFLAGS) -c src/mylibreria.c -o $(OBJ)
+
+clean:
+	rm -rf $(BIN_DIR) $(LIB_DIR)
+	rm -f src/*.o $(LIB_SHARED) $(TARGET)
+
+.PHONY: all clean
