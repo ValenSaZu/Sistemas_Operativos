@@ -9,7 +9,7 @@ BIN_DIR = bin
 
 LIB_STATIC = $(LIB_DIR)/libmylibreria.a
 OBJ = $(SRC_DIR)/mylibreria.o
-TARGET = $(BIN_DIR)/p
+TARGET = $(BIN_DIR)/p_static
 
 all: $(TARGET)
 
