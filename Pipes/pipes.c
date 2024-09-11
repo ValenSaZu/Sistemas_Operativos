@@ -11,7 +11,7 @@ int main() {
     pid_t pid;
     char buffer[MSG_SIZE];
     int line_count = 0;
-    
+
     pipe(pipe1);
     pipe(pipe2);
 
@@ -28,11 +28,11 @@ int main() {
         }
 
         while (fgets(buffer, MSG_SIZE, file)) {
-            write(pipe1[1], buffer, strlen(buffer) + 1);
+            write(pipe1[1], buffer, strlen(buffer));
         }
         fclose(file);
 
-        write(pipe1[1], EOM, strlen(EOM) + 1);
+        write(pipe1[1], EOM, strlen(EOM));
         close(pipe1[1]);
 
         read(pipe2[0], buffer, MSG_SIZE);
@@ -48,7 +48,8 @@ int main() {
         FILE *file_numerado = fopen("archivo_con_numeros.txt", "w");
 
         while (1) {
-            read(pipe1[0], buffer, MSG_SIZE);
+            int bytes_read = read(pipe1[0], buffer, MSG_SIZE);
+            buffer[bytes_read] = '\0';
             if (strcmp(buffer, EOM) == 0) {
                 break;
             }
