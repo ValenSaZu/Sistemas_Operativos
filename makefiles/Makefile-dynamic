@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -fPIC -Iinc
-LDFLAGS = -Llib -lmylibreria -Wl,-rpath,lib
-LIB_SHARED = lib/libmylibreria.dll
+LDFLAGS = -Llib -lmylibreria -Wl,-rpath=lib
+LIB_SHARED = lib/libmylibreria.so
 OBJ = src/mylibreria.o
 TARGET = bin/p_dynamic
 
@@ -11,7 +11,7 @@ BIN_DIR = bin
 all: $(TARGET)
 
 run: $(TARGET)
-	export PATH=$$PATH:./lib && ./$(TARGET)
+	export LD_LIBRARY_PATH=./lib && ./$(TARGET)
 
 $(TARGET): $(OBJ) src/p.o $(LIB_SHARED)
 	mkdir -p $(BIN_DIR)

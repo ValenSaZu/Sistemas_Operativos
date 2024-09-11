@@ -21,14 +21,14 @@ $(LIB_STATIC): $(OBJ)
 	mkdir -p $(LIB_DIR)
 	$(AR) $(LIB_STATIC) $(OBJ)
 
-$(SRC_DIR)/p.o: $(SRC_DIR)/p.c inc/mylibreria.h
+$(SRC_DIR)/p.o: $(SRC_DIR)/p.c $(INC_DIR)/mylibreria.h
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/p.c -o $(SRC_DIR)/p.o
 
-$(OBJ): $(SRC_DIR)/mylibreria.c inc/mylibreria.h
+$(OBJ): $(SRC_DIR)/mylibreria.c $(INC_DIR)/mylibreria.h
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/mylibreria.c -o $(OBJ)
 
 clean:
 	rm -rf $(BIN_DIR) $(LIB_DIR)
-	rm -f src/*.o $(LIB_SHARED) $(TARGET)
+	rm -f $(SRC_DIR)/*.o $(TARGET)
 
 .PHONY: all clean
