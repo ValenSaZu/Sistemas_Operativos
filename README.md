@@ -9,5 +9,5 @@ make -f Makefile-dynamic
 ./p_dynamic.exe
 
 Tercera tarea pipes  
-gcc pipes.c -o pipes
+gcc pipes.c -o pipes  
 ./pipes
