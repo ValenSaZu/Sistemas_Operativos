@@ -11,3 +11,9 @@ make -f Makefile-dynamic
 Tercera tarea pipes  
 gcc pipes.c -o pipes  
 ./pipes
+
+
+Tarea dup2  
+gcc programa1.c -o programa1  
+gcc programa2.c -o programa2  
+./programa2  
