@@ -24,6 +24,6 @@ gcc programa2.c -o programa2
 gcc menu.c -o menu  
 gcc threads.c -o threads -lpthread  
 gcc receiver.c -o receiver  
-./receiver
-./threads
-./menu
+./receiver  
+./threads  
+./menu  
