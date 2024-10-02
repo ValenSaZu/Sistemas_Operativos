@@ -2,15 +2,15 @@
 #include <signal.h>
 #include <unistd.h>
 
-void manejador_signal(int signo) {
-    printf("Recibí la señal: %d\n", signo);
+void manejador_senal(int numero_senal) {
+    printf("Recibí la señal: %d\n", numero_senal);
 }
 
 int main() {
-    signal(2, manejador_signal);
-    signal(16, manejador_signal);
-    signal(17, manejador_signal);
-    signal(19, manejador_signal);
+    signal(2, manejador_senal);
+    signal(16, manejador_senal);
+    signal(17, manejador_senal);
+    signal(19, manejador_senal);
 
     printf("Esperando señales...\n");
 

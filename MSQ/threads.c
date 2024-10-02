@@ -8,15 +8,15 @@
 #include <signal.h>
 #include <unistd.h>
 
-#define MAXSIZE 128
+#define TAM_MAXIMO 128
 
-struct msgbuf {
-    long mtype;
-    char mtext[MAXSIZE];
+struct mensaje {
+    long tipo;
+    char texto[TAM_MAXIMO];
 };
 
-void die(char *s) {
-    perror(s);
+void error(char *mensaje) {
+    perror(mensaje);
     exit(1);
 }
 
@@ -25,17 +25,17 @@ void enviar_signal(int signal) {
     kill(pid, signal);
 }
 
-void *thread_func(void *arg) {
-    int msqid = *((int *)arg);
-    struct msgbuf rcvbuffer;
+void *funcion_hilo(void *arg) {
+    int id_cola_mensajes = *((int *)arg);
+    struct mensaje buffer_recibir;
 
     while (1) {
-        if (msgrcv(msqid, &rcvbuffer, MAXSIZE, 1, 0) < 0) {
-            die("msgrcv");
+        if (msgrcv(id_cola_mensajes, &buffer_recibir, TAM_MAXIMO, 1, 0) < 0) {
+            error("msgrcv");
         }
 
-        int signal = atoi(rcvbuffer.mtext);
-        printf("Thread recibió señal: %d\n", signal);
+        int signal = atoi(buffer_recibir.texto);
+        printf("Hilo recibió señal: %d\n", signal);
         enviar_signal(signal);
 
         if (signal == 19) {
@@ -47,20 +47,20 @@ void *thread_func(void *arg) {
 }
 
 int main() {
-    key_t key = 1234;
-    int msqid;
+    key_t clave = 1234;
+    int id_cola_mensajes;
 
-    if ((msqid = msgget(key, 0666)) < 0) {
-        die("msgget");
+    if ((id_cola_mensajes = msgget(clave, 0666)) < 0) {
+        error("msgget");
     }
 
-    pthread_t tid1, tid2;
+    pthread_t hilo1, hilo2;
 
-    pthread_create(&tid1, NULL, thread_func, &msqid);
-    pthread_create(&tid2, NULL, thread_func, &msqid);
+    pthread_create(&hilo1, NULL, funcion_hilo, &id_cola_mensajes);
+    pthread_create(&hilo2, NULL, funcion_hilo, &id_cola_mensajes);
 
-    pthread_join(tid1, NULL);
-    pthread_join(tid2, NULL);
+    pthread_join(hilo1, NULL);
+    pthread_join(hilo2, NULL);
 
     return 0;
 }

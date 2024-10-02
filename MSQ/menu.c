@@ -4,26 +4,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAXSIZE 128
+#define TAM_MAXIMO 128
 
-struct msgbuf {
-    long mtype;
-    char mtext[MAXSIZE];
+struct mensaje {
+    long tipo;
+    char texto[TAM_MAXIMO];
 };
 
-void die(char *s) {
-    perror(s);
+void error(char *mensaje) {
+    perror(mensaje);
     exit(1);
 }
 
 int main() {
-    int msqid;
-    key_t key = 1234;
-    struct msgbuf sbuf;
-    size_t buflen;
+    int id_cola_mensajes;
+    key_t clave = 1234;
+    struct mensaje mensaje_enviar;
+    size_t longitud_mensaje;
 
-    if ((msqid = msgget(key, IPC_CREAT | 0666)) < 0) {
-        die("msgget");
+    if ((id_cola_mensajes = msgget(clave, IPC_CREAT | 0666)) < 0) {
+        error("msgget");
     }
 
     while (1) {
@@ -37,32 +37,32 @@ int main() {
         scanf("%d", &opcion);
         getchar();
 
-        sbuf.mtype = 1;
+        mensaje_enviar.tipo = 1;
         switch (opcion) {
             case 1:
-                strcpy(sbuf.mtext, "2");
+                strcpy(mensaje_enviar.texto, "2");
                 break;
             case 2:
-                strcpy(sbuf.mtext, "16");
+                strcpy(mensaje_enviar.texto, "16");
                 break;
             case 3:
-                strcpy(sbuf.mtext, "17");
+                strcpy(mensaje_enviar.texto, "17");
                 break;
             case 4:
-                strcpy(sbuf.mtext, "19");
+                strcpy(mensaje_enviar.texto, "19");
                 break;
             default:
                 printf("Opción inválida\n");
                 continue;
         }
 
-        buflen = strlen(sbuf.mtext) + 1;
-        if (msgsnd(msqid, &sbuf, buflen, IPC_NOWAIT) < 0) {
-            die("msgsnd");
+        longitud_mensaje = strlen(mensaje_enviar.texto) + 1;
+        if (msgsnd(id_cola_mensajes, &mensaje_enviar, longitud_mensaje, IPC_NOWAIT) < 0) {
+            error("msgsnd");
         }
 
-        printf("Mensaje enviado: %s\n", sbuf.mtext);
-        if (strcmp(sbuf.mtext, "19") == 0) {
+        printf("Mensaje enviado: %s\n", mensaje_enviar.texto);
+        if (strcmp(mensaje_enviar.texto, "19") == 0) {
             break;
         }
     }
