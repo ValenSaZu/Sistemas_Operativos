@@ -17,3 +17,14 @@ Tarea dup2
 gcc programa1.c -o programa1  
 gcc programa2.c -o programa2  
 ./programa2  
+
+
+TAREA MSQ  
+gcc menu.c -o menu  
+gcc threads.c -o threads -lpthread  
+gcc receiver.c -o receiver  
+
+
+./receiver
+./threads
+./menu
