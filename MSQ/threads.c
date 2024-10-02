@@ -28,14 +28,15 @@ void enviar_signal(int signal) {
 void *funcion_hilo(void *arg) {
     int id_cola_mensajes = *((int *)arg);
     struct mensaje buffer_recibir;
+    long tipo_mensaje = (long)arg;
 
     while (1) {
-        if (msgrcv(id_cola_mensajes, &buffer_recibir, TAM_MAXIMO, 1, 0) < 0) {
+        if (msgrcv(id_cola_mensajes, &buffer_recibir, TAM_MAXIMO, tipo_mensaje, 0) < 0) {
             error("msgrcv");
         }
 
         int signal = atoi(buffer_recibir.texto);
-        printf("Hilo recibió señal: %d\n", signal);
+        printf("Hilo de tipo %ld recibió señal: %d\n", tipo_mensaje, signal);
         enviar_signal(signal);
 
         if (signal == 19) {
@@ -56,8 +57,8 @@ int main() {
 
     pthread_t hilo1, hilo2;
 
-    pthread_create(&hilo1, NULL, funcion_hilo, &id_cola_mensajes);
-    pthread_create(&hilo2, NULL, funcion_hilo, &id_cola_mensajes);
+    pthread_create(&hilo1, NULL, funcion_hilo, (void *)1L);
+    pthread_create(&hilo2, NULL, funcion_hilo, (void *)2L);
 
     pthread_join(hilo1, NULL);
     pthread_join(hilo2, NULL);
