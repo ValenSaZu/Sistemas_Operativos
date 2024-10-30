@@ -31,8 +31,8 @@ gcc receiver.c -o receiver
 - TAREA SHM
 gcc -o Pini Pini.c -pthread  
 gcc -o P P.c -pthread  
-./Pini
-./P <nombre> <numero>
+./Pini  
+./P <nombre> <numero>  
 Limpieza de semaphoras después de ejecutar:  
 sem_unlink("/sem_w");  
 sem_unlink("/sem_r");  
