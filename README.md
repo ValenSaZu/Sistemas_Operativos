@@ -26,4 +26,14 @@ gcc threads.c -o threads -lpthread
 gcc receiver.c -o receiver  
 ./receiver  
 ./threads  
-./menu  
+./menu
+
+- TAREA SHM
+gcc -o Pini Pini.c -pthread  
+gcc -o P P.c -pthread  
+./Pini
+./P <nombre> <numero>
+Limpieza de semaphoras después de ejecutar:  
+sem_unlink("/sem_w");  
+sem_unlink("/sem_r");  
+
