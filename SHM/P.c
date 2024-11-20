@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
     sem_wait(sem);
 
     if (shm_ptr[2] == '3' && num == 3) {
-        snprintf(shm_ptr + 2, SHM_SIZE - 2, "%s", argv[1]);
+        snprintf(shm_ptr + 3, SHM_SIZE - 2, "%s", argv[1]);
         printf("Memoria modificada: %s\n", shm_ptr);
     } else {
         printf("El número no coincide con 3.\n");
