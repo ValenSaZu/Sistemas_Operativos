@@ -1,0 +1,18 @@
+# Paso 1: Instalar la biblioteca necesaria
+pip install posix-ipc
+
+# Paso 2: Inicializar la memoria compartida
+python3 Pini.py
+
+# Paso 3: Modificar la memoria compartida (reemplaza "TEXTO" y 3 según sea necesario)
+python3 P.py "TEXTO" 3
+
+# Paso 4: Leer la memoria compartida
+python3 read_memory.py
+
+# Paso 5 (opcional): Eliminar recursos compartidos
+# Borrar el semáforo
+python3 -c "import posix_ipc; posix_ipc.Semaphore('/mysem').unlink()"
+
+# Borrar la memoria compartida
+python3 -c "import posix_ipc; posix_ipc.SharedMemory('/shmfile').unlink()"
